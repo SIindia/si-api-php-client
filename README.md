@@ -169,27 +169,27 @@ JSON Optional Parameters
 SMS can be sent using the XML values by posting values to the preceding functions.
 
 	$xml = <?xml version="1.0" encoding="UTF-8"?>
-		<xmlapi>
-		  <sender>AAAAAA</sender>
-		  <message>xml test</message>
-		  <unicode>1</unicode>
-		  <flash>1</flash>
-		  <campaign>xml test</campaign>
-		  <dlrurl>
-		     <![CDATA[http://domain.com/receive?sent={sent}&delivered={delivered}&msgid={msgid}&sid={sid}&status={status}&reference={reference}
-		     &custom1={custom1}&custom2={custom2}&credits={credits}]]>
-		  </dlrurl>
-		  <sms>
-		    <to>95xxxxxxxx</to>
-		    <custom>22</custom>
-		    <custom1>99</custom1>
-		  </sms>
-		  <sms>
-		    <to>99xxxxxxxx</to>
-		    <custom>229</custom>
-		    <custom1>995</custom1>
-		  </sms>
-		</xmlapi>
+	<xmlapi>
+	  <sender>AAAAAA</sender>
+	  <message>xml test</message>
+	  <unicode>1</unicode>
+	  <flash>1</flash>
+	  <campaign>xml test</campaign>
+	  <dlrurl>
+	     <![CDATA[http://domain.com/receive?sent={sent}&delivered={delivered}&msgid={msgid}&sid={sid}&status={status}&reference={reference}
+	     &custom1={custom1}&custom2={custom2}&credits={credits}]]>
+	  </dlrurl>
+	  <sms>
+	    <to>95xxxxxxxx</to>
+	    <custom>22</custom>
+	    <custom1>99</custom1>
+	  </sms>
+	  <sms>
+	    <to>99xxxxxxxx</to>
+	    <custom>229</custom>
+	    <custom1>995</custom1>
+	  </sms>
+	</xmlapi>
 
 	$response = $smsObj->sendSmsUsingXmlApi($xml,['formate'=>'json']);
 
@@ -240,6 +240,20 @@ SMS can be sent using the XML values by posting values to the preceding function
 			</dlrurl> 
 		</sms>
 		</api>
+
+### Getting status of message
+
+To check status of any sent SMS campaign, you must have message id only (not group ID) of the respective message(s). You can only check status for messages which have been sent on the same day. If using POST method for pulling messages status, then statuses for maximum 500 messages can be pulled at a time. Here is a function for checking the status of an SMS in the following format:
+
+	$statusResponse = $smsObj->smsStatusPull("fe5a70a3-1d65-40de-93b3-e50ebdc69272:1",['formate'=>'json']);
+
+Optional parameter
+
+1. Format :- Output format should be as specified by this variable, XML/JSON/JSONP. Default response will be in JSON.
+
+2. Numberinfo :- Flag to query service provider and location data, i.e 0 or 1.
+
+3. Page :- Page number to fetch status details of a pariticular page, where page is 1 or more.
 
 License
 -------
