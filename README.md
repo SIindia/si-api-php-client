@@ -46,20 +46,20 @@ We can give optional parameter for different kinds of functionality, has explain
 1. Schedule Sms :- We have to provide Date and time for scheduling an SMS
 
 		$response = $smsObj->sendSms($receivers , $msg , [    
-	    'time'    => '2017-05-19 11:17:55 AM',
+	    	'time'    => '2017-05-19 11:17:55 AM',
 	    ]);
 
 2. Unicode Messgae :- To specify that the message to be sent is in unicode format. Also can be used for automatic detection of unicode SMS.
-	
-	$response = $smsObj->sendSms($receivers , $msg , [    
-    'unicode'    => '1',
-    ]);
+		
+		$response = $smsObj->sendSms($receivers , $msg , [    
+	    	'unicode'    => '1',
+	    ]);
 
 3. Flash Message :- To specify that the message is to be sent in the flash format
 
-	$response = $smsObj->sendSms($receivers , $msg , [    
-    'flash'    => '1',
-    ]);
+		$response = $smsObj->sendSms($receivers , $msg , [    
+	    	'flash'    => '1',
+	    ]);
 
 License
 -------
