@@ -96,7 +96,7 @@ SMS can be sent using the JSON Data by posting values to the preceding URL by th
 
 Sample json data
 
-	{"sms": 
+	$jsonData = {"sms": 
 		[
 		  { 
 		    "to": "9xxxxxxxx", 
@@ -110,6 +110,136 @@ Sample json data
 		  }
 		]
 	}
+
+	$response = $smsObj->sendSmsUsingJsonApi($jsonData,['formate'=>'json']);
+
+JSON Optional Parameters
+
+1. Sending to multiple numbers with same message 
+
+		$jsonData = {
+		  "message": "test json",
+		  "sms":[
+		  {
+		    "to": "95XXXXXXXX",
+		    "msgid": "1",
+		    "message": "test sms",
+		    "custom1": "11",
+		    "custom2": "22",
+		    "sender": "AAAAAA"
+		  },
+		  {
+		    "to": "99XXXXXXXX",
+		     "msgid": "2",
+		    "custom1": "1",
+		    "custom2": "2" 
+		  }],
+		  "unicode": 1,
+		  "flash": 1,
+		  "dlrurl": "http://www.example.com/dlr.php" 
+		}
+
+2. Sending to multiple numbers with different message
+
+		$jsonData = {
+		  "message": "test json",
+		  "sms":[
+		  {
+		    "to": "95XXXXXXXX",
+		    "msgid": "1",
+		    "message": "test sms",
+		    "custom1": "11",
+		    "custom2": "22",
+		    "sender": "AAAAAA"
+		  },
+		  {
+		    "to": "99XXXXXXXX",
+		     "msgid": "2",
+		    "message": "json test sms",
+		    "custom1": "1",
+		    "custom2": "2"
+		  }],
+		  "unicode": 1,
+		  "flash": 1,
+		  "dlrurl": "http://www.example.com/dlr.php"
+		}
+
+### Messaging with XML data
+
+SMS can be sent using the XML values by posting values to the preceding functions.
+
+	$xml = <?xml version="1.0" encoding="UTF-8"?>
+		<xmlapi>
+		  <sender>AAAAAA</sender>
+		  <message>xml test</message>
+		  <unicode>1</unicode>
+		  <flash>1</flash>
+		  <campaign>xml test</campaign>
+		  <dlrurl>
+		     <![CDATA[http://domain.com/receive?sent={sent}&delivered={delivered}&msgid={msgid}&sid={sid}&status={status}&reference={reference}
+		     &custom1={custom1}&custom2={custom2}&credits={credits}]]>
+		  </dlrurl>
+		  <sms>
+		    <to>95xxxxxxxx</to>
+		    <custom>22</custom>
+		    <custom1>99</custom1>
+		  </sms>
+		  <sms>
+		    <to>99xxxxxxxx</to>
+		    <custom>229</custom>
+		    <custom1>995</custom1>
+		  </sms>
+		</xmlapi>
+
+	$response = $smsObj->sendSmsUsingXmlApi($xml,['formate'=>'json']);
+
+1. Sending to multiple numbers with same message 
+
+		$xml = <?xml version="1.0" encoding="UTF-8"?>  
+		<api>  
+		  <campaign>campaign</campaign>  
+		  <dlrurl>
+		    <![CDATA[http://domain.com/receive?msgid={msgid}&sid={sid}&status={status}&custom1={custom1}]]>
+		  </dlrurl> 
+		  <time>2014-12-26 04:00pm</time>  
+		  <unicode>0</unicode>  
+		  <flash>0</flash>  
+		  <sender>senderid</sender>  
+		  <message><![CDATA[smstext]]></message>  
+		  <sms>  
+		      <to>9190********</to>  
+		  </sms>  
+		  <sms>  
+		      <to>9191********</to>  
+		  </sms>  
+		</api>
+
+2. Sending to multiple numbers with different message 
+
+		$xml = <api>
+		<campaign>campaign</campaign>
+		<time>2014-12-26 04:00pm</time>
+		<unicode>0</unicode>
+		<flash>0</flash>
+		<sms>
+			<to>9190********</to>
+			<sender>senderid</sender>
+			<message>smstext</message>
+			<custom>2</custom>
+			<dlrurl>
+			<![CDATA[http://domain.com/receive?msgid={msgid}&sid={sid}&status={status}&custom1={custom1}]]>
+			</dlrurl> 
+		</sms>
+		<sms>
+			<to>9191********</to>
+			<sender>senderid</sender>
+			<message><![CDATA[smstext]]></message>
+			<custom>2</custom>
+			<dlrurl>
+			<![CDATA[http://domain.com/receive?msgid={msgid}&sid={sid}&status={status}&custom1={custom1}]]>
+			</dlrurl> 
+		</sms>
+		</api>
 
 License
 -------
