@@ -39,27 +39,77 @@ Now you are ready to send the message:
 
 	$response = $smsObj->sendSms($receivers, $msg);
 
-### Basic messaging example with optional parameter
+### Basic messaging example with optional parameters
 
 We can give optional parameter for different kinds of functionality, has explained below:
 
 1. Schedule Sms :- We have to provide Date and time for scheduling an SMS
 
 		$response = $smsObj->sendSms($receivers , $msg , [    
-	    	'time'    => '2017-05-19 11:17:55 AM',
+	    	'time' => '2017-05-19 11:17:55 AM',
 	    ]);
 
 2. Unicode Messgae :- To specify that the message to be sent is in unicode format. Also can be used for automatic detection of unicode SMS.
 		
 		$response = $smsObj->sendSms($receivers , $msg , [    
-	    	'unicode'    => '1',
+	    	'unicode' => '1',
 	    ]);
 
 3. Flash Message :- To specify that the message is to be sent in the flash format
 
 		$response = $smsObj->sendSms($receivers , $msg , [    
-	    	'flash'    => '1',
+	    	'flash' => '1',
 	    ]);
+
+4. Receive Delivery Report Url :- The encoded URL to receive delivery reports. Spiffing custom in the DLR url is mandatory.
+	
+		$drl_url = 'http://exapmle.com?sent={sent}&delivered={delivered}&msgid={msgid}&sid={sid}&status={status}&reference={reference}&custom1={custom1}&custom2={custom2}';
+
+		$response = $smsObj->sendSms($receivers , $msg , [    
+	    	'dlr_url' => $dlr_url,
+	    ]);
+
+### Basic messaging example with advance parameters(optional)
+
+1. Format :- Output format should be as specified by this variable ex.-XML/JSON/JSONP. Default response will be in JSON
+	
+		$response = $smsObj->sendSms($receivers , $msg , [    
+	    	'format'  => 'json',
+	    ]);
+
+2. Custom1 & Custom2 :- Custom reference fields.
+
+		$response = $smsObj->sendSms($receivers , $msg , [    
+	    	'custom1'  => 'xxxxxxx',
+	    	'custom2'  => 'xxxxxxx'
+	    ]);
+
+3. Port :- Port number to which SMS has to be sent. Valid integer port number above 2000
+
+		$response = $smsObj->sendSms($receivers , $msg , [    
+	    	'port'  => '8223',	    	
+	    ]);
+
+###  Messaging with JSON data
+
+SMS can be sent using the JSON Data by posting values to the preceding URL by the POST method with urlencoded json data.
+
+Sample json data
+
+	{"sms": 
+		[
+		  { 
+		    "to": "9xxxxxxxx", 
+		    "custom": 9xxxxxxxx, 
+		    "message": "Message from json api node 1"  
+		  }, 
+		  {
+		    "to": "91xxxxxxxx",   
+		    "custom": 34,
+		    "message": "Message from json api node 2"  
+		  }
+		]
+	}
 
 License
 -------
