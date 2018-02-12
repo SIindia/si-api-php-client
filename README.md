@@ -259,7 +259,7 @@ Optional parameter
 
 To send an SMS to an optin group,one must create a optin group and keyword associated with it in your account. Also, need to add numbers for those optin keywords to a group i.e. optin group.
 
-Mandatory Parameter 
+Mandatory Parameters
 
 1. BASE_URL :- URL of your SMS Service
 2. method :- Predefined method, i.e optin
@@ -267,13 +267,225 @@ Mandatory Parameter
 4. id/name :- id-optin group ID/name-Optin keyword, comma separated id or optin group keyword
 5. message :- Message to be sent. Message text which is URL encoded(1000 char for normal, 500 for unicode)
 
-Optional Paramenter
+Optional Parameters
 
 1. time :- Date and time for scheduling an SMS 	EX Format: YYYY-MM-DD HH:MM:SS OR YYYY-MM-DD HH:MM AM/PM
 2. unicode:- To specify that the message to be sent is in unicode format. Also can be used for automatic detection of unicode SMS. i.e 1/0/auto
 3. flash :- To specify that the message is to be sent in the flash format, i.e 1 or 0
 4. format :- Output format should be as specified by this variable,XML/PHP/JSON/JSONP. Default response will be in JSON
 5. callback :- Callback function for JSONP response format, i.e String
+
+	$response = $smsObj->smsToOptinGroup($msg, $optinId, ['time' => '2017-06-11 11:17:55 AM',
+	            'unicode' => '1',
+	            'flash' => '1',
+	            'formate'=>'json']);
+
+### Send Message to a group
+
+In your account, there must be an existing group and numbers under that group to send any message to a group. API for sending a simple message to a group is in the following format.
+
+	$response = $smsObj->sendMessageToGroup($msg, $name , $group_id);
+
+Optional Parameters
+
+1. format :- Output format should be as specified by this variable,XML/PHP/JSON/JSONP. Default response will be in JSON 	
+2. id :- Comma separated group ID
+
+Mandatory Parameters
+
+1. BASE_URL :- URL of your SMS Service
+2. method :- Predefined method, i.e groups
+3. sender :- Sender ID assigned to your account,Sender ID (6 alphabets)
+4. name :- Group name
+5. message :- Message to be sent,message text which is URL encoded(1000 char for normal, 500 for unicode)
+
+### Add Contact to a Group
+
+First, you need to create a group in your account only then you can add contact to an existing valid group. Function for adding contact to a group will be parameterised in the following format.
+
+	$response = $smsObj->addContactsToGroup( $name , $receiverNumber ,['fullname'=>'abc','formate'=>'json']);
+
+Mandatory Parameters
+
+1. BASE_URL :- -URL of your SMS Service
+2. method :- Predefined method is `groups.register`
+3. number :- Mobile number of the contact (With or without 91) 	99XXXXXXXX or 9199XXXXXXXX
+4. name :- Group name (case insensitive)
+
+Optional Parameters
+
+1. fullname :- name of the contact to be added i.e name of the contact
+2. email :- Email of the contact to be added i.e email of the contact
+3. format :- Output format should be as specified by this variable, XML/PHP/JSON/JSONP. Default response will be in JSON
+4. action :- Flag to specify the action can be `add/delete`.  Add action is Default
+
+### Edit Schedule
+
+Application must have a scheduled SMS campaign to further modify it and also must save a Group ID of an SMS campaign to be rescheduled. In order to edit a scheduled slot, there should a minimum gap of 5mins before its execution. Parameter for an Edit schedule sms slot will be in the following format:
+
+	$response = $smsObj->editSchedule( $new_time , $group_id ,['formate'=>'json']);
+
+Mandatory Parameters
+
+1. URL :- URL of your SMS Service
+2. method :- Predefined method `sms.schedule`
+3. groupid :- group id whose schedule needs to be edited
+4. task :- Specifies that the scheduled time should be modified to the one mentioned within time parameter i.e `modify`
+5. time :- Time to which the slot needs to be re-scheuled. EX Format: YYYY-MM-DD HH:MM:SS OR YYYY-MM-DD HH:MM AM/PM
+
+Optional Parameters
+
+1. format :- Output format should be as specified by this variable,XML/PHP/JSON/JSONP. Default response will be in JSON.
+
+Expected API Error Codes
+
+	A431 	Invalid Group ID
+	A434 	Campaign within next 5 minutes cannot be modified/cancelled.
+
+### Delete Schedule
+
+Application must have a scheduled SMS campaign to further modify it and also must save a Group ID of an SMS campaign to be deleted. In order to delete a scheduled slot, there should a minimum gap of 5mins before its execution. Parameter for deleting an SMS campaign that is already scheduled is in the following format:
+
+	$response = $smsObj->deleteScheduledSms($group_id ,['formate'=>'json']);
+
+Mandatory Parameters
+
+1. BASE_URL :- URL of your SMS Service.
+2. method :- Predefined method `sms.schedule`.
+3. groupid :- Group id that has to be deleted.
+
+### Credit Availability Check
+
+This function can also be used to check the credits in your our account which can be in the following format:
+
+	$response = $smsObj->creditAvailabilityCheck(['formate'=>'json']);
+
+Mandatory Parameters
+
+1. URL :- URL of your SMS Service
+2. method :- Predefined method `account.credits`
+
+Optional Parameters
+
+1. format :- Output format should be as specified by this variable,XML/PHP/JSON/JSONP. Default response will be in JSON.
+
+### SI Lookup
+
+To look information about any number, one must put country code along with number. Function for performing a lookup for specific numbers is in the following format: 
+
+	$response = $smsobj->SILookup($mobile_number, ['format' => 'json']);
+
+Mandatory Parameters
+
+1. BASE_URL :- URL of your SMS Service
+2. method :- Predefined method `lookup`
+3. to :- Mobile number along with country prefix to which the SMS is to be sent. Also one provide multiple numbers in comma separated format. 	Mobile number(GET- 10numbers,POST- 100numbers)
+
+### Creating a Txtly
+
+Txtly is basically a shortened URL which can be used in text messages so that SMS would not exceed the characters. Function to create a Txtly link is as follows:
+	
+	$response = $smsObj->createtxtly("https://facebook.com/xyz/lmn/abc",['format' => 'json']);
+
+Mandatory Parameters
+
+1. URL 	URL of your SMS Service 	URL
+2. method 	Predefined method 	txtly.create
+3. url 	URL that requires to be shortened and tracked 	Long URL (url_encoded)
+
+Optional Parameters
+
+1. Format :- Output format should be as specified by this variable,XML/PHP/JSON/JSONP. Default response will be in JSON
+2. Token :- http://msg.mn/heel Here heel is the token. It is unique for each txtly.This can customized word representing your brand/compnay. If not provided a random unique token is generated
+3. Title :- A significant title to your txtly. If not provided, your txtly will not contain any title
+4. Advanced :- Advanced analytics gives an option to track who (Recipient mobile numbers) visited the page. 1- will enable advanced analytics/0(default) - will disable advanced analytics
+5. Track :- Location Track gives the city and state details of URL visitor. 1- will enable location tracking/0(default) - will disable location tracking
+6. Attach :-media file that requires to be compressed to a short link. 	Provide the media file in a CURL request
+7. callback :-callback URL along with parameters to extract customer device/IP details. http://TestDomain.com/TestFile.php?os={platform}&mobile={mobile} For raw response data format. If you want to get response in JSON format, then use (json) tag before callback URL. For eg. (json)http://TestDomain.com/TestFile.php?os={platform}&mobile={mobile}
+
+Callback Parameters to be used in URL
+
+1. client_ip :- IP from which the URL was accessed like `156.151.23.65`
+2. host :- Domain name of the URL Ex.- Example.com
+3. query_string :- Query string of the URL ex. `http://example.com/over/there?name=ferret`
+4. user_agent :- User agent used by the URL i.e Mozilla/5.0 (iPad; U; CPU OS 3_2_1 like Mac OS X; en-us) AppleWebKit/531.21.10
+5. browser :- Browser in which the URL was accessed i.e `msie`
+6. browser_version :- Version of the browser in which the URL was accessed ex. `11.0`
+7. browser_lang :- Language of the operating system in which the URL was accessed ex. `English`
+8. browser_engine :- Browser engine in which the URL was accessed i.e `Trident`
+9. resolution :- Resolution with which the URL was accessed `1024*768`
+10. platform :- Operating system of the device in which the URL was accessed `Android OS`
+11. platform_version :- Version of the operating system of the device in which the URL was accessed `5.0`
+12. device_type :- Type of device in which the URL was accessed `phone`
+13. device_brand :- Brand of the device in which the URL was accessed `Motorola`
+14. device_version :- Version number of the device in which the URL was accessed `XT1068`
+15. device_model :- Model name of the device in which the URL was accessed 	`HTC Dream`
+16. touch_enabled :- If or not the device from where the URL was accessed is touch enabled or not ex. yes
+17. latitude :- Latitude coordinates from where the URL was accessed `12.9667° N`
+18. longitude :- Longitude coordinates from where the URL was accessed `77.5667° E`
+19. country :- Country from where the URL was accessed 	`India`
+20. region :- State from where the URL was accessed `Karnataka`
+21. city :- City from where the URL was accessed `Bangalore`
+22. created :- Requested time in unixtimestamp 	`1426243175`
+23. mobile :- Short URL recepient mobile number `99XXXXXXXX`
+24. os_code :- code of the OS from where the URL was accessed i.e `(AN)` for Android'
+
+Expected Error Codes
+
+1. E500 	Please provide url to redirect
+2. E5011 	Txtly Already Exists. Please try another one.
+3. E502 	Please attach a file
+4. E503 	Invalid file format. Upload valid file.
+5. E504 	File size exceed. Maxmium 50000 Kb.
+6. E505 	File upload failed. Please try again.
+
+### Deleting a Txtly
+
+One must have a txtly id to delete it from database. Here is a function to delete a Txtly link:
+
+	$response = $smsObj->deletetxtly("205XXX",['format' => 'json']);
+
+Mandatory Parameters
+
+1. URL :- URL of your SMS Service
+2. method :- Predefined method 	`txtly`
+3. task :- Task to be performed on txtly `delete`
+4. id :- id of the txtly `123XXXX`
+5. app :- Application reference `1`
+
+Optional Parameters
+
+1. format :- Output format should be as specified by this variable,XML/PHP/JSON/JSONP. Default response will be in JSON.
+
+### Txtly Reports Extraction
+
+Function to Pull logs for all txtly shortened links in your account:
+
+	$response = $smsObj->txtlyReportExtract(['format' => 'json']);
+
+Mandatory Parameters
+
+1. URL :- URL of your SMS Service
+2. method :- Predefined method 	`txtly`
+3. app :- Txtly Application Logs `1`
+
+Optional Parameter
+
+1. format :- Output format should be as specified by this variable,XML/PHP/JSON/JSONP. Default response will be in JSON
+
+### Pull logs for Individual Txtly
+
+Here is an function to pull logs for individual txtly from our account:
+
+	$response = $smsObj->pullLogForIndividualtxtl("223XXX",['format' => 'json']);
+
+Mandatory Parameters
+
+1. URL :- URL of your SMS Service
+2. method :- Predefined method `txtly.logs`
+3. app :- Txtly Application Logs `1`
+4. id :- Id of the txtly for which you want logs `123XXXXX`
+
 
 License
 -------
