@@ -31,14 +31,35 @@ The first step is to prepare the message:
 
 Then next step is to prepare your contact list:
 	
-	$receivers = <receiver_number>;
+	$receivers = <receiver_number1,receiver_number2>;
 
-More than one receiver can be given by comma seperated values.
+Receiver Mobile number to which SMS needs to be sent. It can be with or without 91. Also provide multiple numbers in comma separated format.
 
 Now you are ready to send the message:
 
-	$smsObj = $sms->sendSms($receivers, $msg);  
+	$response = $smsObj->sendSms($receivers, $msg);
 
+### Basic messaging example with optional parameter
+
+We can give optional parameter for different kinds of functionality, has explained below:
+
+1. Schedule Sms :- We have to provide Date and time for scheduling an SMS
+
+	$response = $smsObj->sendSms($receivers , $msg , [    
+    'time'    => '2017-05-19 11:17:55 AM',
+    ]);
+
+2. Unicode Messgae :- To specify that the message to be sent is in unicode format. Also can be used for automatic detection of unicode SMS.
+	
+	$response = $smsObj->sendSms($receivers , $msg , [    
+    'unicode'    => '1',
+    ]);
+
+3. Flash Message :- To specify that the message is to be sent in the flash format
+
+	$response = $smsObj->sendSms($receivers , $msg , [    
+    'flash'    => '1',
+    ]);
 
 License
 -------
