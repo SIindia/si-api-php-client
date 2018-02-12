@@ -255,6 +255,26 @@ Optional parameter
 
 3. Page :- Page number to fetch status details of a pariticular page, where page is 1 or more.
 
+### Sending SMS to an Optin Group
+
+To send an SMS to an optin group,one must create a optin group and keyword associated with it in your account. Also, need to add numbers for those optin keywords to a group i.e. optin group.
+
+Mandatory Parameter 
+
+1. BASE_URL :- URL of your SMS Service
+2. method :- Predefined method, i.e optin
+3. sender :- Sender ID assigned to your account
+4. id/name :- id-optin group ID/name-Optin keyword, comma separated id or optin group keyword
+5. message :- Message to be sent. Message text which is URL encoded(1000 char for normal, 500 for unicode)
+
+Optional Paramenter
+
+1. time :- Date and time for scheduling an SMS 	EX Format: YYYY-MM-DD HH:MM:SS OR YYYY-MM-DD HH:MM AM/PM
+2. unicode:- To specify that the message to be sent is in unicode format. Also can be used for automatic detection of unicode SMS. i.e 1/0/auto
+3. flash :- To specify that the message is to be sent in the flash format, i.e 1 or 0
+4. format :- Output format should be as specified by this variable,XML/PHP/JSON/JSONP. Default response will be in JSON
+5. callback :- Callback function for JSONP response format, i.e String
+
 License
 -------
 
