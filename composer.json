@@ -1,10 +1,10 @@
 {
-    "name": "SI-SMS-PHP/app",
+    "name": "SI-SMS Api PHP/app",
     "type": "application",
     "description": "SI-PHP Application",
     "license": "MIT",
     "authors": [{
         "name": "Satish Mehta",
         "email": "satish.m@solutionsinfini.com"
-    }],    
+    }]
 }
