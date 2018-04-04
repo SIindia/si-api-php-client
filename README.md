@@ -13,9 +13,9 @@ For using SI API PHP client in your project, you have to add the following file 
 
 	src/main/php/api/Sms.php
 
-or you can use conposer to install this package
+or recommended to use [composer](http://getcomposer.org) to install the library.
 
-	composer require si/si-api-php
+	$ composer require si/si-api-php
 
 Running examples
 ----------------
