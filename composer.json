@@ -1,5 +1,5 @@
 {
-    "name": "SI-SMS-PHP-api",
+    "name": "si/si-api-php",
     "type": "application",
     "description": "SI-PHP Application",
     "license": "MIT",
